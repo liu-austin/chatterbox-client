@@ -6,7 +6,7 @@ var MessagesView = {
     setInterval(function() {
       App.fetch(App.stopSpinner);
 
-    }, 30000);
+    }, 6000);
   },
 
   renderMessage: function(msg) {

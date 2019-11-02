@@ -1,8 +1,11 @@
+// jshint esversion:6
 var App = {
 
   $spinner: $('.spinner img'),
 
   username: 'anonymous',
+
+  previousLastIndex: 0,
 
   initialize: function() {
     App.username = window.location.search.substr(10);
@@ -25,15 +28,15 @@ var App = {
       // if our rooms obj does not have data.results[i].roomname
       // add key-val pair i: roomname
 
-      console.log(data);
-      for (var i = 0; i < data.results.length; i++) {
+      // console.log(data);
+      for (let i = App.previousLastIndex; i < data.results.length; i++) {
         // debugger;
         if (!Rooms[data.results[i]['roomname']]) {
           Rooms[data.results[i]['roomname']] = 1;
         }
       }
-      console.log(Rooms);
-      for (var i = 0; i < data.results.length; i++) {
+      // console.log(Rooms);
+      for (let i = App.previousLastIndex; i < data.results.length; i++) {
         // debugger;
         if (!Messages[data.results[i]['roomname']]) {
           Messages[data.results[i]['roomname']] = [];
@@ -44,9 +47,16 @@ var App = {
           roomname: data.results[i]['roomname']
         });
       }
-      console.log(Messages);
-      for (var i = 0; i < data.results.length; i++) {
+      // console.log(Messages);
+      for (let i = App.previousLastIndex; i < data.results.length; i++) {
         MessagesView.renderMessage(data.results[i]);
+      }
+
+      App.previousLastIndex = data.results.length;
+
+      for (let i = 0; i < Object.keys(Rooms).length; i++) {
+
+        RoomsView.renderRoom(Object.keys(Rooms)[i]);
       }
       callback();
     });

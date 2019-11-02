@@ -20,8 +20,34 @@ var App = {
   fetch: function(callback = ()=>{}) {
     Parse.readAll((data) => {
       // examine the response from the server request:
-      console.log(data);
 
+      // iterate through data.results
+      // if our rooms obj does not have data.results[i].roomname
+      // add key-val pair i: roomname
+
+      console.log(data);
+      for (var i = 0; i < data.results.length; i++) {
+        // debugger;
+        if (!Rooms[data.results[i]['roomname']]) {
+          Rooms[data.results[i]['roomname']] = 1;
+        }
+      }
+      console.log(Rooms);
+      for (var i = 0; i < data.results.length; i++) {
+        // debugger;
+        if (!Messages[data.results[i]['roomname']]) {
+          Messages[data.results[i]['roomname']] = [];
+        }
+        Messages[data.results[i]['roomname']].push({
+          username: data.results[i]['username'],
+          text: data.results[i]['text'],
+          roomname: data.results[i]['roomname']
+        });
+      }
+      console.log(Messages);
+      for (var i = 0; i < data.results.length; i++) {
+        MessagesView.renderMessage(data.results[i]);
+      }
       callback();
     });
   },

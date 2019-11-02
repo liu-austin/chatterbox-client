@@ -88,3 +88,8 @@ form input[type=text] {
     background-color: #0090da;
 }
 
+#room {
+    height: 15px;
+    width: 40%;
+    padding-bottom: 5px;
+}

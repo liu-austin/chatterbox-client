@@ -9,20 +9,17 @@ var RoomsView = {
     RoomsView.$button.on('click', function() {
       if (!Rooms[RoomsView.$roomInput.val()]) { // if the rooms obj doesn't have this roomname
         Rooms[RoomsView.$roomInput.val()] = 1; // populate the rooms obj with the roomname
+        RoomsView.renderRoom(RoomsView.$roomInput.val());
       }
+      RoomsView.$roomInput.val('');
     });
   },
 
-  renderRoom: function(roomname) {
-    var alreadyFound = false;
-    console.log(RoomsView.$options);
-    for (let i = 0; i < RoomsView.$select.length; i++) {
+  includedInSelect: [],
 
-      if (RoomsView.$options[i].innerHTML === roomname) {
-        alreadyFound = true;
-      }
-    }
-    if (!alreadyFound) {
+  renderRoom: function(roomname) {
+    if (!RoomsView.includedInSelect.includes(roomname)) {
+      RoomsView.includedInSelect.push(roomname);
       RoomsView.$select.prepend(RoomsView.render({roomname: roomname}));
     }
   },

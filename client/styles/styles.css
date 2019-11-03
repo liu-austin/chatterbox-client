@@ -91,5 +91,21 @@ form input[type=text] {
 #room {
     height: 15px;
     width: 40%;
-    padding-bottom: 5px;
+    /* padding-bottom: 5px; */
+}
+
+select {
+    margin-right: 25px;
+}
+
+#add-room-text {
+    display: inline;
+}
+
+#add-room-text {
+    display: inline;
+}
+
+.username {
+    cursor: pointer;
 }

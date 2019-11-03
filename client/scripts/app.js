@@ -48,8 +48,38 @@ var App = {
         });
       }
       // console.log(Messages);
-      for (let i = App.previousLastIndex; i < data.results.length; i++) {
-        MessagesView.renderMessage(data.results[i]);
+      if (App.showAll) {
+        for (let j = App.previousLastIndex; j < data.results.length; j++) {
+          MessagesView.renderMessage(data.results[j]);
+          $('.chat:nth-child(' + j + ')').on('click', function() {
+            for (let k = 0; k < data.results.length; k++) {
+              if ($('.chat:nth-child(' + j + ') div:nth-child(2)').html() === $('.chat:nth-child(' + k + ') div:nth-child(2)').html()) {
+                $('.chat:nth-child(' + k + ')').addClass('friend');
+              }
+            }
+            // $('.chat:nth-child(' + j + ')').addClass('friend');
+            console.log($('.chat:nth-child(' + j + ') div:nth-child(2)').html());
+
+            // }
+          });
+        }
+      } else {
+        if (Messages[RoomsView.selectedRoom]) {
+          for (let i = App.previousLastIndexForRoom; i < Messages[RoomsView.selectedRoom].length; i++) {
+            MessagesView.renderMessage(Messages[RoomsView.selectedRoom][i]);
+            $('.chat:nth-child(' + i + ')').on('click', function() {
+              for (let k = 0; k < Messages[RoomsView.selectedRoom].length; k++) {
+                if ($('.chat:nth-child(' + j + ') div:nth-child(2)').html() === $('.chat:nth-child(' + k + ') div:nth-child(2)').html()) {
+                  $('.chat:nth-child(' + k + ')').addClass('friend');
+                }
+              }
+              // $('.chat:nth-child(' + j + ')').addClass('friend');
+              console.log($('.chat:nth-child(' + j + ') div:nth-child(2)').html());
+
+            });
+          }
+          App.previousLastIndexForRoom = Messages[RoomsView.selectedRoom].length;
+        }
       }
 
       App.previousLastIndex = data.results.length;
@@ -70,5 +100,9 @@ var App = {
   stopSpinner: function() {
     App.$spinner.fadeOut('fast');
     FormView.setStatus(false);
-  }
+  },
+
+  showAll: true,
+
+  previousLastIndexForRoom: 0
 };

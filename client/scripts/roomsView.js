@@ -5,29 +5,35 @@ var RoomsView = {
   $select: $('#rooms select'),
   $options: $('.optionclass'),
 
-  initialize: function() {
-    RoomsView.$button.on('click', function() {
-      if (!Rooms[RoomsView.$roomInput.val()]) { // if the rooms obj doesn't have this roomname
-        Rooms[RoomsView.$roomInput.val()] = 1; // populate the rooms obj with the roomname
-        RoomsView.renderRoom(RoomsView.$roomInput.val());
-      }
-      RoomsView.$roomInput.val('');
+  initialize: function () {
+
+    RoomsView.$select.on('change', function () {
+      RoomsView.selectedRoom = $(this).children('option:selected').val();
+      App.showAll = false;
+      App.previousLastIndexForRoom = 0;
+      MessagesView.$chats.empty();
+    });
+
+    RoomsView.$button.on('click', function () {
+      Rooms.add();
     });
   },
 
+  selectedRoom: null,
+
   includedInSelect: [],
 
-  renderRoom: function(roomname) {
+  renderRoom: function (roomname) {
     if (!RoomsView.includedInSelect.includes(roomname)) {
       RoomsView.includedInSelect.push(roomname);
-      RoomsView.$select.prepend(RoomsView.render({roomname: roomname}));
+      RoomsView.$select.prepend(RoomsView.render({ roomname: roomname }));
     }
   },
 
   // adds options to our room dropdown
   render: _.template(`
 
-    <option class='optionclass' value="#"><%= roomname %></option>
+    <option class='optionclass' value="<%= roomname %>"><%= roomname %></option>
 
   `)
 
